@@ -1,4 +1,4 @@
-"use strict";
+import { getElm, looper, append, removeClassifiedItems, mkElm, fromAtoB } from "./functional.js";
 
 const [canvas, colorBoxes, redo, undo, eraseAll, boldChanger, boldSample] = getElm(["canvas", "colorBoxes", "redo", "undo", "eraseAll", "boldChanger", "boldSample"]);
 const ctx = canvas.getContext("2d");
@@ -172,5 +172,3 @@ async function blobOnCanvas(blob) {
 	boldChanger.value = defaultBold;
 	boldChanger.dispatchEvent(new Event("input"));
 })();
-
-

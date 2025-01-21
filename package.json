@@ -1,0 +1,24 @@
+{
+  "name": "webcanvas",
+  "version": "1.0.0",
+  "description": "💱💱💱 ブラウザ上で動作する簡単なお絵かきツールです！",
+  "main": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osawa-koki/WebCanvas.git"
+  },
+  "author": "osawa-koki <koki@osawa.cloud>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/osawa-koki/WebCanvas/issues"
+  },
+  "homepage": "https://github.com/osawa-koki/WebCanvas#readme",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --minify --outfile=./public/index.js --sourcemap --target=es2020 --platform=browser",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "dependencies": {
+    "esbuild": "^0.24.2",
+    "typescript": "^5.7.3"
+  }
+}
