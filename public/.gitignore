@@ -1,0 +1,6 @@
+*.*
+!.gitignore
+!index.html
+!style.css
+!favicon.ico
+!/img/*.*
