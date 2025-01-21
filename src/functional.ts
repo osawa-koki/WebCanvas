@@ -1,12 +1,9 @@
-/* Types */
 export type NonEmptyArray<T> = [T, ...T[]];
 export type DOMElement = HTMLElement | SVGElement;
 
-/* Helper functions - required by fromAtoB */
 const lt = (a: number, b: number): boolean => a < b;
 const ltEq = (a: number, b: number): boolean => a <= b;
 
-/* Main functions used in index.ts */
 export const looper = <T, U>(
   arr: NonEmptyArray<T>,
   fx: (item: T, index: number) => U,
