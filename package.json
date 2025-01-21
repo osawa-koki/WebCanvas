@@ -15,10 +15,20 @@
   "homepage": "https://github.com/osawa-koki/WebCanvas#readme",
   "scripts": {
     "build": "esbuild src/index.ts --bundle --minify --outfile=./public/index.js --sourcemap --target=es2020 --platform=browser",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "lint": "eslint ./src/**/*.ts",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "esbuild": "^0.24.2",
     "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "esbuild-register": "^3.6.0",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0"
   }
 }
