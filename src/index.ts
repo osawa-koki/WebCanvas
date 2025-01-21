@@ -1,4 +1,12 @@
-import { NonEmptyArray, getElm, looper, append, removeClassifiedItems, mkElm, fromAtoB } from "./functional.js";
+import {
+  NonEmptyArray,
+  getElm,
+  looper,
+  append,
+  removeClassifiedItems,
+  mkElm,
+  fromAtoB,
+} from './functional.js';
 
 interface Log {
   currentPosition: number;
@@ -13,13 +21,13 @@ interface Environment {
 }
 
 const [canvas, colorBoxes, redo, undo, eraseAll, boldChanger, boldSample] = getElm([
-  "canvas",
-  "colorBoxes",
-  "redo",
-  "undo",
-  "eraseAll",
-  "boldChanger",
-  "boldSample"
+  'canvas',
+  'colorBoxes',
+  'redo',
+  'undo',
+  'eraseAll',
+  'boldChanger',
+  'boldSample'
 ]) as [
     HTMLCanvasElement,
     HTMLElement,
@@ -30,7 +38,7 @@ const [canvas, colorBoxes, redo, undo, eraseAll, boldChanger, boldSample] = getE
     HTMLElement
   ];
 
-const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
 const log: Log = {
   currentPosition: 0,
@@ -38,7 +46,7 @@ const log: Log = {
 };
 
 const env: Environment = {
-  color: "red",
+  color: 'red',
   bold: 5,
   isClicking: false,
   pointsTracer: [],
@@ -46,25 +54,25 @@ const env: Environment = {
 
 const defaultBold = 10;
 const defaultColor = (() => {
-  const [onBlack, onWhite] = mkElm(["div", "div"]);
-  onBlack.style.backgroundColor = "black";
-  onWhite.style.backgroundColor = "white";
+  const [onBlack, onWhite] = mkElm(['div', 'div']);
+  onBlack.style.backgroundColor = 'black';
+  onWhite.style.backgroundColor = 'white';
   const elms = [onBlack, onWhite] as [HTMLElement, HTMLElement];
-  looper(elms, (elm: HTMLElement) => elm.addEventListener("click", setColor));
+  looper(elms, (elm: HTMLElement) => elm.addEventListener('click', setColor));
   append(elms, colorBoxes);
   return onBlack;
 })();
 
 looper(fromAtoB(0, 340, 15, false), (i: number) => {
-  const [colorElm] = mkElm(["div"]);
+  const [colorElm] = mkElm(['div']);
   colorElm.style.backgroundColor = `hsla(${i}, 100%, 50%, 1)`;
-  colorElm.addEventListener("click", setColor);
+  colorElm.addEventListener('click', setColor);
   colorBoxes.appendChild(colorElm);
 });
 
 function setColor(this: HTMLElement): void {
-  removeClassifiedItems("selected");
-  this.classList.add("selected");
+  removeClassifiedItems('selected');
+  this.classList.add('selected');
   env.color = this.style.backgroundColor;
 }
 
@@ -93,16 +101,16 @@ function drawLine(): void {
     if (blob) {
       log.images.push(blob);
       log.currentPosition++;
-      undo.classList.remove("disabled");
+      undo.classList.remove('disabled');
     }
   });
 }
 
-canvas.addEventListener("mousedown", moveStart);
-canvas.addEventListener("mouseup", moveEnd);
-canvas.addEventListener("mouseleave", moveEnd);
+canvas.addEventListener('mousedown', moveStart);
+canvas.addEventListener('mouseup', moveEnd);
+canvas.addEventListener('mouseleave', moveEnd);
 
-canvas.addEventListener("mousemove", function (event: MouseEvent): void {
+canvas.addEventListener('mousemove', function (event: MouseEvent): void {
   if (!env.isClicking) return;
 
   const clickX = event.pageX;
@@ -131,40 +139,40 @@ function boldChanged(this: HTMLInputElement): void {
   env.bold = Number(this.value);
 }
 
-boldChanger.addEventListener("change", boldChanged);
-boldChanger.addEventListener("input", boldChanged);
+boldChanger.addEventListener('change', boldChanged);
+boldChanger.addEventListener('input', boldChanged);
 
-eraseAll.addEventListener("click", function (): void {
-  if (!window.confirm("削除しますか???")) return;
+eraseAll.addEventListener('click', function (): void {
+  if (!window.confirm('削除しますか???')) return;
   log.currentPosition = 0;
   log.images.splice(0);
-  looper([undo, redo] as [HTMLElement, HTMLElement], item => item.classList.add("disabled"));
+  looper([undo, redo] as [HTMLElement, HTMLElement], item => item.classList.add('disabled'));
   eraser();
 });
 
 function eraser(): void {
   ctx.rect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "white";
+  ctx.fillStyle = 'white';
   ctx.fill();
 }
 
-undo.addEventListener("click", function (this: HTMLElement): void {
+undo.addEventListener('click', function (this: HTMLElement): void {
   if (log.currentPosition < 1) {
-    undo.classList.add("disabled");
+    undo.classList.add('disabled');
     return;
   }
-  if (this.classList.contains("disabled")) return;
-  redo.classList.remove("disabled");
+  if (this.classList.contains('disabled')) return;
+  redo.classList.remove('disabled');
   eraser();
   log.currentPosition--;
   const prevBlob = log.images[log.currentPosition - 1];
   blobOnCanvas(prevBlob);
 });
 
-redo.addEventListener("click", function (this: HTMLElement): void {
-  if (this.classList.contains("disabled")) return;
+redo.addEventListener('click', function (this: HTMLElement): void {
+  if (this.classList.contains('disabled')) return;
   if (log.images.length - 1 < log.currentPosition) {
-    redo.classList.add("disabled");
+    redo.classList.add('disabled');
     return;
   }
   eraser();
@@ -182,5 +190,5 @@ async function blobOnCanvas(blob: Blob | undefined): Promise<void> {
 (() => {
   defaultColor.click();
   boldChanger.value = String(defaultBold);
-  boldChanger.dispatchEvent(new Event("input"));
+  boldChanger.dispatchEvent(new Event('input'));
 })();
